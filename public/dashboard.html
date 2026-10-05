@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard – SmartTrip</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-light">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg smart-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <i class="bi bi-compass-fill"></i> SmartTrip
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="explore.html">Explore Places</a></li>
+          <li class="nav-item"><a class="nav-link" href="create-trip.html">Plan Trip</a></li>
+          <li class="nav-item"><a class="nav-link" href="my-trips.html">My Trips</a></li>
+          <li class="nav-item"><a class="nav-link active" href="dashboard.html">Dashboard</a></li>
+        </ul>
+
+        <ul class="navbar-nav align-items-center" id="navAuthContainer">
+          <!-- Populated by main.js -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Dashboard Main Content -->
+  <div class="container py-4">
+    <!-- Welcome Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+      <div>
+        <h2 class="fw-bold mb-1">Traveler Dashboard</h2>
+        <p class="text-muted mb-0">Overview of your intelligent itineraries, trips, and saved recommendations</p>
+      </div>
+      <div class="d-flex gap-2">
+        <a href="create-trip.html" class="btn btn-primary-smart">
+          <i class="bi bi-plus-circle me-1"></i> Create New Trip
+        </a>
+        <a href="explore.html" class="btn btn-outline-secondary">
+          <i class="bi bi-search me-1"></i> Browse Places
+        </a>
+      </div>
+    </div>
+
+    <!-- Stat Cards Row -->
+    <div class="row g-4 mb-4">
+      <div class="col-md-4">
+        <div class="stat-card">
+          <div class="stat-icon primary">
+            <i class="bi bi-suitcase-lg-fill"></i>
+          </div>
+          <div>
+            <div class="stat-number" id="statTotalTrips">0</div>
+            <div class="stat-label">My Trips</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="stat-card">
+          <div class="stat-icon warning">
+            <i class="bi bi-bookmark-star-fill"></i>
+          </div>
+          <div>
+            <div class="stat-number" id="statSavedPlaces">0</div>
+            <div class="stat-label">Saved Places</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="stat-card">
+          <div class="stat-icon success">
+            <i class="bi bi-calendar2-check-fill"></i>
+          </div>
+          <div>
+            <div class="stat-number" id="statUpcomingTrips">0</div>
+            <div class="stat-label">Upcoming Trips</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Trips Section -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="fw-bold mb-0">Recent Trips & Itineraries</h4>
+      <a href="my-trips.html" class="btn btn-link text-decoration-none">View All Trips <i class="bi bi-arrow-right"></i></a>
+    </div>
+
+    <div class="row" id="recentTripsList">
+      <!-- Loaded via dashboard.js -->
+    </div>
+
+    <!-- Explore Predefined Destinations Banner -->
+    <div class="mt-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold mb-0">Popular Destinations</h4>
+        <a href="explore.html" class="btn btn-link text-decoration-none">Browse All <i class="bi bi-arrow-right"></i></a>
+      </div>
+      <div class="row g-3" id="dashboardDestinationsGrid">
+        <!-- Loaded via dashboard.js -->
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

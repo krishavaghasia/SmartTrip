@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore Places – SmartTrip</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-light">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg smart-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <i class="bi bi-compass-fill"></i> SmartTrip
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="explore.html">Explore Places</a></li>
+          <li class="nav-item"><a class="nav-link" href="create-trip.html">Plan Trip</a></li>
+          <li class="nav-item"><a class="nav-link" href="my-trips.html">My Trips</a></li>
+          <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+        </ul>
+
+        <ul class="navbar-nav align-items-center" id="navAuthContainer">
+          <!-- Populated by main.js -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Filter & Search Bar Header -->
+  <div class="bg-white border-bottom py-4 mb-4">
+    <div class="container">
+      <h2 class="fw-bold mb-1">Discover Attractions & Landmarks</h2>
+      <p class="text-muted mb-3">Live AJAX search and multi-criteria filtering across 70+ attractions</p>
+
+      <div class="row g-2 align-items-center">
+        <!-- Search Keyword -->
+        <div class="col-md-4">
+          <div class="input-group">
+            <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
+            <input type="text" class="form-control" id="filterSearch" placeholder="Search attraction name or tag...">
+          </div>
+        </div>
+
+        <!-- Destination Filter -->
+        <div class="col-md-2 col-6">
+          <select class="form-select" id="filterDestination">
+            <option value="" selected>All Destinations</option>
+          </select>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="col-md-2 col-6">
+          <select class="form-select" id="filterCategory">
+            <option value="all" selected>All Categories</option>
+            <option value="History">History</option>
+            <option value="Food">Food</option>
+            <option value="Nature">Nature</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Culture">Culture</option>
+            <option value="Religious">Religious</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Photography">Photography</option>
+            <option value="Nightlife">Nightlife</option>
+            <option value="Relaxation">Relaxation</option>
+          </select>
+        </div>
+
+        <!-- Indoor / Outdoor Filter -->
+        <div class="col-md-2 col-6">
+          <select class="form-select" id="filterIndoorOutdoor">
+            <option value="all" selected>All Types</option>
+            <option value="indoor">Indoor (Rainy friendly)</option>
+            <option value="outdoor">Outdoor</option>
+          </select>
+        </div>
+
+        <!-- Max Cost Filter -->
+        <div class="col-md-2 col-6">
+          <select class="form-select" id="filterMaxCost">
+            <option value="" selected>Any Cost</option>
+            <option value="0">Free (₹0)</option>
+            <option value="100">Under ₹100</option>
+            <option value="300">Under ₹300</option>
+            <option value="500">Under ₹500</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Places Results Grid -->
+  <div class="container pb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <span class="text-muted small" id="placesCountText">Showing attractions...</span>
+      <button class="btn btn-link text-decoration-none btn-sm" id="btnResetFilters">
+        <i class="bi bi-arrow-counterclockwise"></i> Reset Filters
+      </button>
+    </div>
+
+    <div class="row g-4" id="placesGridContainer">
+      <div class="col-12 text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    $(document).ready(function () {
+      loadDestinationsFilter();
+      fetchPlaces();
+
+      // Trigger search on input or dropdown change
+      $('#filterSearch').on('input', debounce(fetchPlaces, 300));
+      $('#filterDestination, #filterCategory, #filterIndoorOutdoor, #filterMaxCost').on('change', fetchPlaces);
+
+      $('#btnResetFilters').on('click', function () {
+        $('#filterSearch').val('');
+        $('#filterDestination').val('');
+        $('#filterCategory').val('all');
+        $('#filterIndoorOutdoor').val('all');
+        $('#filterMaxCost').val('');
+        fetchPlaces();
+      });
+    });
+
+    function debounce(func, wait) {
+      let timeout;
+      return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+      };
+    }
+
+    function loadDestinationsFilter() {
+      $.get('/api/destinations', function (res) {
+        if (res.success && res.data) {
+          const select = $('#filterDestination');
+          res.data.forEach(d => {
+            select.append(`<option value="${d.destination_id}">${d.name}</option>`);
+          });
+        }
+      });
+    }
+
+    function fetchPlaces() {
+      const search = $('#filterSearch').val().trim();
+      const destination_id = $('#filterDestination').val();
+      const category = $('#filterCategory').val();
+      const indoor_outdoor = $('#filterIndoorOutdoor').val();
+      const max_cost = $('#filterMaxCost').val();
+
+      const params = {};
+      if (search) params.search = search;
+      if (destination_id) params.destination_id = destination_id;
+      if (category && category !== 'all') params.category = category;
+      if (indoor_outdoor && indoor_outdoor !== 'all') params.indoor_outdoor = indoor_outdoor;
+      if (max_cost) params.max_cost = max_cost;
+
+      const container = $('#placesGridContainer');
+
+      $.get('/api/places', params, function (res) {
+        container.empty();
+        if (res.success && res.data && res.data.length > 0) {
+          $('#placesCountText').text(`Showing ${res.data.length} attractions`);
+          res.data.forEach(pl => {
+            const isIndoor = pl.indoor_outdoor === 'indoor';
+            const indoorBadge = isIndoor
+              ? '<span class="badge bg-info text-dark"><i class="bi bi-umbrella me-1"></i>Indoor</span>'
+              : '<span class="badge bg-light text-secondary border"><i class="bi bi-sun me-1"></i>Outdoor</span>';
+
+            container.append(`
+              <div class="col-md-6 col-lg-4">
+                <div class="smart-card h-100">
+                  <div style="height: 180px; position: relative; overflow: hidden;">
+                    <img src="${pl.image_url || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80'}" 
+                         class="w-100 h-100 object-fit-cover" alt="${pl.name}">
+                    <span class="position-absolute top-0 end-0 m-2 badge bg-primary">
+                      ${pl.category}
+                    </span>
+                    <span class="position-absolute bottom-0 start-0 m-2 badge bg-warning text-dark">
+                      <i class="bi bi-star-fill me-1"></i> ${pl.popularity}/10
+                    </span>
+                  </div>
+                  <div class="p-3 d-flex flex-column h-100 justify-content-between">
+                    <div>
+                      <h5 class="fw-bold mb-1">${pl.name}</h5>
+                      <div class="d-flex flex-wrap gap-2 mb-2">
+                        ${indoorBadge}
+                        <span class="badge bg-light text-dark border"><i class="bi bi-cash me-1"></i>${pl.cost > 0 ? '₹' + pl.cost : 'Free'}</span>
+                        <span class="badge bg-light text-dark border"><i class="bi bi-clock me-1"></i>${pl.duration} hrs</span>
+                      </div>
+                      <p class="text-muted small mb-3">${pl.description}</p>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                      <small class="text-muted"><i class="bi bi-door-open me-1"></i>${pl.opening_time.slice(0, 5)} - ${pl.closing_time.slice(0, 5)}</small>
+                      <a href="create-trip.html?dest_id=${pl.destination_id}" class="btn btn-primary-smart btn-sm">
+                        Plan Trip
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `);
+          });
+        } else {
+          $('#placesCountText').text('No attractions found');
+          container.html(`
+            <div class="col-12 text-center py-5">
+              <i class="bi bi-search text-muted fs-1 mb-3 d-block"></i>
+              <h5>No Attractions Matched Your Filters</h5>
+              <p class="text-muted">Try adjusting your category, price limit, or search keyword.</p>
+            </div>
+          `);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

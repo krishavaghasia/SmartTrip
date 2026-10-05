@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan New Trip – SmartTrip</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-light">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg smart-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <i class="bi bi-compass-fill"></i> SmartTrip
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="explore.html">Explore Places</a></li>
+          <li class="nav-item"><a class="nav-link active" href="create-trip.html">Plan Trip</a></li>
+          <li class="nav-item"><a class="nav-link" href="my-trips.html">My Trips</a></li>
+          <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+        </ul>
+
+        <ul class="navbar-nav align-items-center" id="navAuthContainer">
+          <!-- Populated by main.js -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Planning Section -->
+  <div class="container py-5" id="wizardSection">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+
+        <!-- Header -->
+        <div class="text-center mb-4">
+          <span class="badge bg-primary-light text-primary fw-bold text-uppercase px-3 py-2 mb-2">Step-by-Step Generator</span>
+          <h2 class="fw-bold">Intelligent Trip Planner</h2>
+          <p class="text-muted">Personalize your journey with destination choices, travel dates, budget, and group interests</p>
+        </div>
+
+        <!-- Wizard Step Indicators -->
+        <div class="wizard-steps">
+          <div class="wizard-step active" id="stepIndicator1">
+            <div class="wizard-step-circle">1</div>
+            <div class="wizard-step-title">Destination</div>
+          </div>
+          <div class="wizard-step" id="stepIndicator2">
+            <div class="wizard-step-circle">2</div>
+            <div class="wizard-step-title">Trip Details</div>
+          </div>
+          <div class="wizard-step" id="stepIndicator3">
+            <div class="wizard-step-circle">3</div>
+            <div class="wizard-step-title">Interests & Weights</div>
+          </div>
+          <div class="wizard-step" id="stepIndicator4">
+            <div class="wizard-step-circle">4</div>
+            <div class="wizard-step-title">Group & Generate</div>
+          </div>
+        </div>
+
+        <!-- Wizard Card Form -->
+        <div class="smart-card">
+          <form id="tripWizardForm" class="p-4 p-md-5">
+
+            <!-- STEP 1: DESTINATION -->
+            <div class="wizard-step-content" id="stepContent1">
+              <h4 class="fw-bold mb-3"><i class="bi bi-geo-alt-fill text-primary me-2"></i> Step 1: Select Your Destination</h4>
+              <p class="text-muted small mb-4">Choose from verified destinations loaded dynamically from MySQL.</p>
+
+              <div class="mb-4">
+                <label for="destinationSelect" class="form-label fw-bold">Select Destination</label>
+                <select class="form-select form-select-lg" id="destinationSelect" required>
+                  <option value="" disabled selected>Loading destinations from database...</option>
+                </select>
+              </div>
+
+              <div class="mb-4">
+                <label for="startingLocation" class="form-label fw-bold">Starting Location / Base Hotel</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light"><i class="bi bi-house-door"></i></span>
+                  <input type="text" class="form-control" id="startingLocation" placeholder="e.g. Hotel / City Center / Railway Station" value="City Center">
+                </div>
+                <small class="text-muted">Used by the Nearest Neighbor Route Optimizer as the tour starting point.</small>
+              </div>
+
+              <label class="form-label fw-bold mb-2">Or Click to Pick a Destination:</label>
+              <div class="row g-3" id="destinationCardsContainer">
+                <!-- Injected via trip.js -->
+              </div>
+            </div>
+
+            <!-- STEP 2: TRIP DETAILS -->
+            <div class="wizard-step-content" id="stepContent2" style="display: none;">
+              <h4 class="fw-bold mb-3"><i class="bi bi-calendar-check-fill text-primary me-2"></i> Step 2: Trip Duration, Budget & Transport</h4>
+              <p class="text-muted small mb-4">Set your travel schedule, traveler count, budget ceiling, and transit preference.</p>
+
+              <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                  <label for="startDate" class="form-label fw-bold">Start Date</label>
+                  <input type="date" class="form-control form-control-lg" id="startDate" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="endDate" class="form-label fw-bold">End Date</label>
+                  <input type="date" class="form-control form-control-lg" id="endDate" required>
+                </div>
+              </div>
+
+              <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                  <label for="travelersCount" class="form-label fw-bold">Number of Travelers</label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-light"><i class="bi bi-people"></i></span>
+                    <input type="number" class="form-control" id="travelersCount" min="1" max="10" value="2" required>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <label for="totalBudget" class="form-label fw-bold">Total Budget (INR ₹)</label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-light">₹</span>
+                    <input type="number" class="form-control" id="totalBudget" min="500" step="500" value="5000" required>
+                  </div>
+                  <small class="text-muted">The Budget Optimizer calculates per-day allocations.</small>
+                </div>
+                <div class="col-md-4">
+                  <label for="transportSelect" class="form-label fw-bold">Transportation Preference</label>
+                  <select class="form-select" id="transportSelect" required>
+                    <option value="Public Transport" selected>Public Transport (Metro/Bus/Auto)</option>
+                    <option value="Walking">Walking (Eco-friendly)</option>
+                    <option value="Car">Car / Rental Vehicle</option>
+                    <option value="Bike">Bike / Motorcycle</option>
+                    <option value="Taxi">Taxi / Cab Service</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 3: INTEREST SELECTION -->
+            <div class="wizard-step-content" id="stepContent3" style="display: none;">
+              <h4 class="fw-bold mb-2"><i class="bi bi-heart-fill text-primary me-2"></i> Step 3: Select Your Travel Interests</h4>
+              <p class="text-muted small mb-4">Select categories you enjoy and adjust their importance slider (1–10). The Recommendation Engine scores places based on these weights.</p>
+
+              <div class="row g-3" id="interestsGrid">
+                <!-- Checkbox cards injected dynamically by trip.js -->
+              </div>
+            </div>
+
+            <!-- STEP 4: GROUP TRAVEL PREFERENCES & GENERATION -->
+            <div class="wizard-step-content" id="stepContent4" style="display: none;">
+              <h4 class="fw-bold mb-2"><i class="bi bi-people-fill text-primary me-2"></i> Step 4: Group Consensus & Finalization</h4>
+              <p class="text-muted small mb-3">Traveling with friends or family? Add their individual interests to aggregate a combined preference vector!</p>
+
+              <div class="smart-card p-3 mb-4 bg-light">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <div>
+                    <h6 class="fw-bold mb-0">Multi-Traveler Preference System</h6>
+                    <small class="text-muted">Ensures everyone in the group has their favorite activities included.</small>
+                  </div>
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-outline-primary btn-sm" id="btnAddTraveler">
+                      <i class="bi bi-person-plus-fill me-1"></i> Add Traveler
+                    </button>
+                    <button type="button" class="btn btn-outline-success btn-sm" id="btnCalcGroup">
+                      <i class="bi bi-calculator me-1"></i> Calculate Consensus
+                    </button>
+                  </div>
+                </div>
+
+                <div id="groupTravelersList">
+                  <!-- Injected via trip.js -->
+                </div>
+
+                <div id="groupConsensusOutput" style="display: none;">
+                  <!-- Progress bars injected via trip.js -->
+                </div>
+              </div>
+
+              <!-- Ready to Generate Banner -->
+              <div class="alert alert-primary d-flex align-items-center gap-3 p-3">
+                <i class="bi bi-magic fs-2 text-primary"></i>
+                <div>
+                  <h6 class="fw-bold mb-1">Ready to Generate Your Smart Itinerary!</h6>
+                  <small>Our backend algorithms will evaluate candidate places, calculate Nearest-Neighbor routes, optimize budget allocations, and output a day-by-day timeline.</small>
+                </div>
+              </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+              <button type="button" class="btn btn-outline-secondary" id="btnPrevStep" style="display: none;">
+                <i class="bi bi-arrow-left me-1"></i> Previous
+              </button>
+              <div class="ms-auto d-flex gap-2">
+                <button type="button" class="btn btn-primary-smart" id="btnNextStep">
+                  Next Step <i class="bi bi-arrow-right ms-1"></i>
+                </button>
+                <button type="submit" class="btn btn-accent-smart" id="btnSubmitTrip" style="display: none;">
+                  <i class="bi bi-magic me-1"></i> Generate Smart Itinerary
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/trip.js"></script>
+</body>
+</html>

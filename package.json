@@ -1,0 +1,28 @@
+{
+  "name": "smarttrip-itinerary-planner",
+  "version": "1.0.0",
+  "description": "SmartTrip – Intelligent Travel Itinerary Planner (OST Innovative Assignment)",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node --watch server/server.js",
+    "setup-db": "node database/setup.js"
+  },
+  "keywords": [
+    "travel-planner",
+    "itinerary-generator",
+    "route-optimization",
+    "recommendation-system",
+    "open-source-technologies"
+  ],
+  "author": "B.Tech CSE Students",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.12.0"
+  }
+}

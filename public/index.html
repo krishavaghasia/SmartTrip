@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartTrip – Intelligent Travel Itinerary Planner</title>
+  <meta name="description" content="AI-driven personalized, budget-friendly, and route-optimized day-by-day travel itinerary planner.">
+  
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg smart-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <i class="bi bi-compass-fill"></i> SmartTrip
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+          <li class="nav-item">
+            <a class="nav-link active" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="explore.html">Explore Places</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="create-trip.html">Plan Trip</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="my-trips.html">My Trips</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="dashboard.html">Dashboard</a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav align-items-center" id="navAuthContainer">
+          <li class="nav-item me-2">
+            <a class="nav-link" href="login.html"><i class="bi bi-box-arrow-in-right me-1"></i> Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-primary-smart text-white btn-sm" href="register.html">Sign Up</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <span class="badge-tag">
+            <i class="bi bi-stars me-1 text-warning"></i> Open Source Technologies Innovative Project
+          </span>
+          <h1 class="hero-title">SmartTrip</h1>
+          <h2 class="display-6 fw-bold mb-3 text-warning">“Plan Less. Explore More.”</h2>
+          <p class="hero-subtitle">
+            Create personalized, budget-friendly, and route-optimized travel itineraries in minutes with multi-factor recommendation and nearest-neighbor routing.
+          </p>
+          <div class="d-flex flex-wrap gap-3">
+            <a href="create-trip.html" class="btn btn-accent-smart btn-lg">
+              <i class="bi bi-magic me-2"></i> Plan My Trip
+            </a>
+            <a href="explore.html" class="btn btn-outline-smart btn-lg">
+              <i class="bi bi-search me-2"></i> Explore Destinations
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Flow -->
+  <section class="py-5 bg-white border-bottom">
+    <div class="container py-4">
+      <div class="text-center mb-5">
+        <span class="badge bg-primary-light text-primary fw-bold text-uppercase px-3 py-2 mb-2">Workflow</span>
+        <h2 class="fw-bold">How It Works</h2>
+        <p class="text-muted">From personal preferences to an optimized day-by-day travel schedule</p>
+      </div>
+
+      <div class="row g-4 text-center justify-content-center">
+        <div class="col-md-2 col-sm-4">
+          <div class="p-3">
+            <div class="stat-icon primary mx-auto mb-3">
+              <i class="bi bi-sliders"></i>
+            </div>
+            <h6 class="fw-bold mb-1">1. Enter Preferences</h6>
+            <small class="text-muted">Destinations, budget, interests & group preferences</small>
+          </div>
+        </div>
+        <div class="col-md-1 d-none d-md-flex align-items-center justify-content-center">
+          <i class="bi bi-arrow-right text-primary fs-3"></i>
+        </div>
+        <div class="col-md-2 col-sm-4">
+          <div class="p-3">
+            <div class="stat-icon warning mx-auto mb-3">
+              <i class="bi bi-lightbulb"></i>
+            </div>
+            <h6 class="fw-bold mb-1">2. Smart Recommendations</h6>
+            <small class="text-muted">Attraction scoring based on budget & popularity</small>
+          </div>
+        </div>
+        <div class="col-md-1 d-none d-md-flex align-items-center justify-content-center">
+          <i class="bi bi-arrow-right text-primary fs-3"></i>
+        </div>
+        <div class="col-md-2 col-sm-4">
+          <div class="p-3">
+            <div class="stat-icon success mx-auto mb-3">
+              <i class="bi bi-calendar2-range"></i>
+            </div>
+            <h6 class="fw-bold mb-1">3. Itinerary Generation</h6>
+            <small class="text-muted">Day-by-day time slot distribution & pacing</small>
+          </div>
+        </div>
+        <div class="col-md-1 d-none d-md-flex align-items-center justify-content-center">
+          <i class="bi bi-arrow-right text-primary fs-3"></i>
+        </div>
+        <div class="col-md-2 col-sm-4">
+          <div class="p-3">
+            <div class="stat-icon purple mx-auto mb-3">
+              <i class="bi bi-signpost-2"></i>
+            </div>
+            <h6 class="fw-bold mb-1">4. Route Optimization</h6>
+            <small class="text-muted">Nearest neighbor algorithm to reduce travel transit</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why SmartTrip Features -->
+  <section class="py-5 bg-light">
+    <div class="container py-4">
+      <div class="text-center mb-5">
+        <span class="badge bg-primary-light text-primary fw-bold text-uppercase px-3 py-2 mb-2">Key Advantages</span>
+        <h2 class="fw-bold">Why SmartTrip?</h2>
+        <p class="text-muted">Built as an intelligent decision-support system, not a simple CRUD database</p>
+      </div>
+
+      <div class="row g-4">
+        <!-- Feature 1 -->
+        <div class="col-md-4">
+          <div class="smart-card h-100 p-4">
+            <div class="stat-icon primary mb-3">
+              <i class="bi bi-person-check-fill"></i>
+            </div>
+            <h5 class="fw-bold mb-2">Personalized Planning</h5>
+            <p class="text-muted small">
+              Customizes visits based on specific weights for History, Food, Photography, Nature, Adventure, and Culture.
+            </p>
+          </div>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="col-md-4">
+          <div class="smart-card h-100 p-4">
+            <div class="stat-icon warning mb-3">
+              <i class="bi bi-wallet-fill"></i>
+            </div>
+            <h5 class="fw-bold mb-2">Budget Optimization</h5>
+            <p class="text-muted small">
+              Automated breakdown of transportation, stays, dining, and activities with smart cost-saving suggestions if overbudget.
+            </p>
+          </div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="col-md-4">
+          <div class="smart-card h-100 p-4">
+            <div class="stat-icon success mb-3">
+              <i class="bi bi-bullseye"></i>
+            </div>
+            <h5 class="fw-bold mb-2">Smart Recommendations</h5>
+            <p class="text-muted small">
+              Scores destinations out of 10.0 using interest alignment, popularity index, budget compatibility, and opening hours.
+            </p>
+          </div>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="col-md-4">
+          <div class="smart-card h-100 p-4">
+            <div class="stat-icon purple mb-3">
+              <i class="bi bi-diagram-3-fill"></i>
+            </div>
+            <h5 class="fw-bold mb-2">Route Optimization</h5>
+            <p class="text-muted small">
+              Greedy Nearest Neighbor heuristic calculates Haversine distances to order stops sequentially and minimize travel time.
+            </p>
+          </div>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="col-md-4">
+          <div class="smart-card h-100 p-4">
+            <div class="stat-icon primary mb-3">
+              <i class="bi bi-people-fill"></i>
+            </div>
+            <h5 class="fw-bold mb-2">Group Consensus Engine</h5>
+            <p class="text-muted small">
+              Allows multiple travelers in a party to vote on interests, aggregating weights to ensure everyone's favorite activities are included.
+            </p>
+          </div>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="col-md-4">
+          <div class="smart-card h-100 p-4">
+            <div class="stat-icon warning mb-3">
+              <i class="bi bi-cloud-rain-fill"></i>
+            </div>
+            <h5 class="fw-bold mb-2">Rainy Day Backup Plan</h5>
+            <p class="text-muted small">
+              One-click alternative itinerary generator that dynamically switches outdoor walks to museums, indoor galleries, and cafes.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular Predefined Destinations -->
+  <section class="py-5 bg-white">
+    <div class="container py-4">
+      <div class="d-flex justify-content-between align-items-end mb-4 flex-wrap gap-2">
+        <div>
+          <span class="badge bg-primary-light text-primary fw-bold text-uppercase px-3 py-2 mb-2">Destinations</span>
+          <h2 class="fw-bold mb-0">Explore Top Predefined Cities</h2>
+        </div>
+        <a href="explore.html" class="btn btn-outline-primary btn-sm">View All Places <i class="bi bi-arrow-right"></i></a>
+      </div>
+
+      <div class="row g-4" id="homeDestinationsGrid">
+        <!-- Injected dynamically via AJAX -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row g-4 mb-4">
+        <div class="col-md-4">
+          <h5 class="text-white"><i class="bi bi-compass-fill text-warning me-2"></i>SmartTrip</h5>
+          <p class="small">
+            An Intelligent Travel Itinerary Planner developed for Open Source Technologies (OST) Innovative Assignment.
+          </p>
+          <div class="small text-muted">
+            Tech Stack: HTML5, CSS3, Bootstrap 5, JavaScript, jQuery, AJAX, Node.js, Express.js, MySQL.
+          </div>
+        </div>
+        <div class="col-md-2 col-6">
+          <h5>Quick Links</h5>
+          <ul class="list-unstyled small">
+            <li class="mb-2"><a href="index.html">Home</a></li>
+            <li class="mb-2"><a href="create-trip.html">Plan Trip</a></li>
+            <li class="mb-2"><a href="explore.html">Explore Places</a></li>
+            <li class="mb-2"><a href="my-trips.html">My Trips</a></li>
+            <li class="mb-2"><a href="dashboard.html">Dashboard</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3 col-6">
+          <h5>Algorithms</h5>
+          <ul class="list-unstyled small">
+            <li class="mb-2"><i class="bi bi-check2 text-primary me-1"></i> Multi-factor Recommendation</li>
+            <li class="mb-2"><i class="bi bi-check2 text-primary me-1"></i> Nearest Neighbor Routing</li>
+            <li class="mb-2"><i class="bi bi-check2 text-primary me-1"></i> Budget Optimization Engine</li>
+            <li class="mb-2"><i class="bi bi-check2 text-primary me-1"></i> Group Preference Aggregation</li>
+            <li class="mb-2"><i class="bi bi-check2 text-primary me-1"></i> 4-Pillar Trip Scorer</li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h5>System Diagnostics</h5>
+          <div class="bg-dark p-3 rounded small border border-secondary">
+            <div><i class="bi bi-circle-fill text-success me-1"></i> Server: Online</div>
+            <div><i class="bi bi-database me-1"></i> Database: MySQL 8.0</div>
+            <div><i class="bi bi-shield-check me-1"></i> Auth: JWT Token Security</div>
+            <a href="/api/health" target="_blank" class="btn btn-outline-light btn-sm mt-2 w-100">
+              <i class="bi bi-activity me-1"></i> View /api/health
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="border-top border-secondary pt-3 text-center small">
+        <p class="mb-0">© 2026 SmartTrip Planner • B.Tech CSE Open Source Technology (OST) Project</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    $(document).ready(function () {
+      $.get('/api/destinations', function (res) {
+        if (res.success && res.data) {
+          const grid = $('#homeDestinationsGrid');
+          grid.empty();
+          res.data.slice(0, 6).forEach(dest => {
+            grid.append(`
+              <div class="col-md-4 col-sm-6">
+                <div class="destination-card">
+                  <img src="${dest.image_url}" alt="${dest.name}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80';">
+                  <div class="destination-card-overlay">
+                    <h4 class="text-white mb-1">${dest.name}</h4>
+                    <p class="small text-white-50 mb-2">${dest.state}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="badge bg-primary">${dest.best_time_to_visit || 'Best: Oct-Mar'}</span>
+                      <a href="create-trip.html?dest_id=${dest.destination_id}" class="btn btn-light btn-sm text-dark fw-bold">
+                        Plan Now <i class="bi bi-arrow-right"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `);
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

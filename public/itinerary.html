@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Itinerary – SmartTrip</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    @media print {
+      .smart-navbar, .no-print, button, .btn {
+        display: none !important;
+      }
+      body {
+        background: #ffffff !important;
+      }
+      .smart-card {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg smart-navbar no-print">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <i class="bi bi-compass-fill"></i> SmartTrip
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="explore.html">Explore Places</a></li>
+          <li class="nav-item"><a class="nav-link" href="create-trip.html">Plan Trip</a></li>
+          <li class="nav-item"><a class="nav-link" href="my-trips.html">My Trips</a></li>
+          <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+        </ul>
+
+        <ul class="navbar-nav align-items-center" id="navAuthContainer">
+          <!-- Populated by main.js -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Itinerary Header -->
+  <div class="bg-white border-bottom py-4 mb-4">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <h2 class="fw-bold mb-0" id="itineraryDestTitle">Ahmedabad Heritage & Food Explorer</h2>
+            <span class="badge bg-info text-dark" id="rainyDayBadge" style="display: none;">
+              <i class="bi bi-cloud-rain-fill me-1"></i> Rainy Day Plan
+            </span>
+          </div>
+          <p class="text-muted mb-0" id="itinerarySubtitle">2 Days • ₹5,000 Budget • 2 Travelers • Public Transport</p>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2 no-print">
+          <button type="button" class="btn btn-outline-primary btn-sm" id="btnRainyDayPlan">
+            <i class="bi bi-cloud-rain-fill me-1"></i> Generate Alternative Plan (Rainy Day)
+          </button>
+          <button type="button" class="btn btn-outline-secondary btn-sm" id="btnReoptimizeRoute">
+            <i class="bi bi-arrow-repeat me-1"></i> Re-Optimize Route
+          </button>
+          <button type="button" class="btn btn-outline-dark btn-sm" id="btnPrintItinerary">
+            <i class="bi bi-printer me-1"></i> Print / PDF
+          </button>
+          <button type="button" class="btn btn-primary-smart btn-sm" id="btnSaveTrip">
+            <i class="bi bi-cloud-arrow-up me-1"></i> Save Trip
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container pb-5">
+    <div class="row g-4">
+
+      <!-- LEFT COLUMN: Timeline & Daily Schedule -->
+      <div class="col-lg-8">
+
+        <!-- Trip Score Card -->
+        <div class="smart-card p-4 mb-4">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <div class="trip-score-badge">
+                <div class="trip-score-number" id="tripScoreVal">88</div>
+                <div class="trip-score-label">Trip Score</div>
+              </div>
+            </div>
+            <div class="col">
+              <h5 class="fw-bold mb-1">Intelligent Trip Feasibility Score</h5>
+              <div class="row g-2 mt-2">
+                <div class="col-6 col-md-3">
+                  <div class="small text-muted mb-1">Budget Efficiency</div>
+                  <div class="progress" style="height: 6px;">
+                    <div class="progress-bar bg-success" id="budgetScoreBar" style="width: 90%;">90%</div>
+                  </div>
+                </div>
+                <div class="col-6 col-md-3">
+                  <div class="small text-muted mb-1">Preference Match</div>
+                  <div class="progress" style="height: 6px;">
+                    <div class="progress-bar bg-primary" id="prefScoreBar" style="width: 92%;">92%</div>
+                  </div>
+                </div>
+                <div class="col-6 col-md-3">
+                  <div class="small text-muted mb-1">Route Efficiency</div>
+                  <div class="progress" style="height: 6px;">
+                    <div class="progress-bar bg-info" id="routeScoreBar" style="width: 85%;">85%</div>
+                  </div>
+                </div>
+                <div class="col-6 col-md-3">
+                  <div class="small text-muted mb-1">Time Utilization</div>
+                  <div class="progress" style="height: 6px;">
+                    <div class="progress-bar bg-warning" id="timeScoreBar" style="width: 80%;">80%</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Smart Suggestions Container -->
+          <div class="mt-3 pt-3 border-top">
+            <div class="fw-bold small text-secondary mb-2"><i class="bi bi-robot me-1 text-primary"></i> Smart System Suggestions:</div>
+            <div id="smartSuggestionsList">
+              <!-- Injected by itinerary.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Day Tabs Navigation -->
+        <ul class="nav nav-pills mb-3" id="dayTabsNav">
+          <!-- Populated by itinerary.js -->
+        </ul>
+
+        <!-- Day Timeline Content Container -->
+        <div id="dayTimelineContainer">
+          <!-- Populated by itinerary.js -->
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN: Optimizers, Route Graph & Recommendations -->
+      <div class="col-lg-4">
+
+        <!-- Route Optimization Card -->
+        <div class="smart-card p-3 mb-4">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="fw-bold mb-0"><i class="bi bi-signpost-2 text-primary me-2"></i> Route Optimization</h6>
+            <span class="badge bg-primary-light text-primary" id="routeTransportBadge">Public Transport</span>
+          </div>
+          <div class="row g-2 mb-3 text-center">
+            <div class="col-6">
+              <div class="p-2 border rounded bg-light">
+                <small class="text-muted d-block">Total Distance</small>
+                <span class="fw-bold fs-6" id="routeTotalDist">24.2 km</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="p-2 border rounded bg-light">
+                <small class="text-muted d-block">Estimated Transit</small>
+                <span class="fw-bold fs-6" id="routeTotalTime">1 hr 15 min</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="small text-muted mb-2">Optimized Sequential Tour:</div>
+          <div class="route-flow" id="routeFlowDiagram">
+            <!-- Flow Diagram nodes injected via itinerary.js -->
+          </div>
+          <small class="text-muted d-block mt-2">Calculated using Greedy Nearest-Neighbor TSP heuristic and Great-Circle Haversine distance.</small>
+        </div>
+
+        <!-- Budget Optimizer Card -->
+        <div class="smart-card p-3 mb-4">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="fw-bold mb-0"><i class="bi bi-wallet2 text-success me-2"></i> Budget Optimizer</h6>
+            <span class="badge bg-light text-dark border" id="budgetTotalDisplay">₹5,000</span>
+          </div>
+
+          <div id="budgetOverAlert" class="mb-2" style="display: none;"></div>
+
+          <div class="mb-3">
+            <div class="d-flex justify-content-between small text-muted mb-1">
+              <span>Estimated: <strong id="budgetEstTotalDisplay">₹4,450</strong></span>
+              <span>Remaining: <strong class="text-success" id="budgetRemainingDisplay">₹550</strong></span>
+            </div>
+            <div class="progress" style="height: 10px;">
+              <div class="progress-bar bg-primary" id="budgetProgressBar" style="width: 88%;">88% Utilized</div>
+            </div>
+          </div>
+
+          <div class="small fw-bold text-muted mb-2">Estimated Expense Breakdown:</div>
+          <div class="list-group list-group-flush small border rounded mb-3">
+            <div class="list-group-item d-flex justify-content-between py-2">
+              <span><i class="bi bi-bus-front me-2 text-primary"></i>Transportation</span>
+              <span class="fw-bold" id="costTransport">₹600</span>
+            </div>
+            <div class="list-group-item d-flex justify-content-between py-2">
+              <span><i class="bi bi-building me-2 text-warning"></i>Accommodation</span>
+              <span class="fw-bold" id="costAccommodation">₹2,200</span>
+            </div>
+            <div class="list-group-item d-flex justify-content-between py-2">
+              <span><i class="bi bi-cup-hot me-2 text-danger"></i>Food & Dining</span>
+              <span class="fw-bold" id="costFood">₹1,200</span>
+            </div>
+            <div class="list-group-item d-flex justify-content-between py-2">
+              <span><i class="bi bi-ticket-perforated me-2 text-success"></i>Activities & Entry</span>
+              <span class="fw-bold" id="costActivities">₹200</span>
+            </div>
+            <div class="list-group-item d-flex justify-content-between py-2">
+              <span><i class="bi bi-cart me-2 text-secondary"></i>Miscellaneous</span>
+              <span class="fw-bold" id="costMisc">₹250</span>
+            </div>
+          </div>
+
+          <div class="small fw-bold text-secondary mb-2">Cost-Saving Suggestions:</div>
+          <div id="budgetSavingSuggestions">
+            <!-- Injected via itinerary.js -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RECOMMENDED FOR YOU SECTION -->
+    <div class="mt-4 pt-4 border-top">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <span class="badge bg-primary-light text-primary fw-bold text-uppercase px-3 py-1 mb-1">Rule-Based Recommendations</span>
+          <h4 class="fw-bold mb-0">Recommended For You</h4>
+        </div>
+        <a href="explore.html" class="btn btn-outline-primary btn-sm">Explore More Places <i class="bi bi-arrow-right"></i></a>
+      </div>
+      <div class="row" id="recommendedPlacesContainer">
+        <!-- Injected via itinerary.js -->
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODAL: Add Activity -->
+  <div class="modal fade" id="addActivityModal" tabindex="-1" aria-labelledby="addActivityModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold" id="addActivityModalLabel">
+            <i class="bi bi-plus-circle-fill text-primary me-2"></i> Add Attraction to <span id="modalAddDayNum">Day 1</span>
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-search"></i></span>
+              <input type="text" class="form-control" id="modalPlaceSearch" placeholder="Search by name or category (e.g. Museum, Food, Lake)...">
+            </div>
+          </div>
+          <div class="row g-2" id="modalPlacesList" style="max-height: 400px; overflow-y: auto;">
+            <!-- Populated via itinerary.js -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Edit Activity -->
+  <div class="modal fade" id="editActivityModal" tabindex="-1" aria-labelledby="editActivityModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold" id="editActivityModalLabel">
+            <i class="bi bi-pencil-square text-primary me-2"></i> Edit Activity Schedule
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h6 class="fw-bold text-primary mb-3" id="modalEditPlaceName">Attraction</h6>
+          <div class="row g-3 mb-3">
+            <div class="col-6">
+              <label for="modalEditStartTime" class="form-label small fw-bold">Start Time</label>
+              <input type="time" class="form-control" id="modalEditStartTime" required>
+            </div>
+            <div class="col-6">
+              <label for="modalEditEndTime" class="form-label small fw-bold">End Time</label>
+              <input type="time" class="form-control" id="modalEditEndTime" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="modalEditNotes" class="form-label small fw-bold">Custom Notes / Reminders</label>
+            <textarea class="form-control" id="modalEditNotes" rows="3" placeholder="e.g. Pre-book tickets online, carry camera..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary-smart btn-sm" id="btnSaveActivityEdit">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/itinerary.js"></script>
+</body>
+</html>
